@@ -1,0 +1,47 @@
+.form-container {
+  width: 100%;
+  height: calc(100vh - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+form {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  width: 30%;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+.form-element {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.form-element input {
+  padding: 2px 5px;
+  width: 60%;
+}
+form button {
+  padding: 5px 5rem;
+  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: rgb(0, 153, 255);
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+form button:hover {
+  padding: 5px 7rem;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.error-line {
+  text-align: center;
+  color: tomato;
+}
