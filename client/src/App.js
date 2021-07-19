@@ -43,14 +43,14 @@ function App() {
             <Route path="/books">
               <Books/>
             </Route>
-          ):(<NotLoggedin/>)
+          ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
         }
         {
           role ==="manager" ? (
             <Route path="/admin">
               <Admin/>
             </Route>
-          ):(<NotLoggedin/>)
+          ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
         }
       </Switch>
     </Router>
