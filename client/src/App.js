@@ -41,7 +41,7 @@ function App() {
         {
           role === "student" || role ==="manager" ? (
             <Route path="/books">
-              <Books/>
+              <Books isAuth={ isAuth}/>
             </Route>
           ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
         }
