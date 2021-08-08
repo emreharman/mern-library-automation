@@ -31,12 +31,20 @@ const Login = ({setIsAuth,setRole}) => {
             email,
             password
         }
-        const response = await axios.post("http://localhost:3004/user/login", user);
-        if (response.status === 200) {
-            setIsAuth(true);
-            setRole(response.data.role);
-            history.push("/");
-        }
+        axios.post("http://localhost:3004/user/login", user)
+            .then(res => {
+                if (res.status === 200) {
+                    setIsAuth(true);
+                    setRole(res.data.role);
+                    history.push("/");
+                }
+            }).catch(err => {
+            setError(true);
+            setMessage("Email or Password is not correct.");
+            setTimeout(() => {
+                setError(false);
+            }, 1000);
+        })
     }
     return (
         <div className="form-container">
