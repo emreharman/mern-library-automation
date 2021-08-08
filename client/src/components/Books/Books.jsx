@@ -7,7 +7,7 @@ const Books = ({ isAuth }) => {
     useEffect(() => {
         if (isAuth) {
             axios.get("http://localhost:3004/books")
-            .then(res => console.log(res)).catch(err => console.log(err))
+            .then(res => console.log(res)).catch(err => history.push("/logout"))
         } else {
             history.push("/login")
         }
