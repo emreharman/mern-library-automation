@@ -13,7 +13,7 @@ const bookSchema = mongoose.Schema({
         type: String,
         required: false
     },
-    puslishDate: {
+    publishDate: {
         type: String,
         required: false,
     },

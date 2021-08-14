@@ -32,6 +32,7 @@ router.post("/add", isAuth, isManager,async (req, res) => {
             publishDate: req.body.publishDate,
             isbn: req.body.isbn
         })
+        console.log(newBook)
         const savedBook = await newBook.save()
         res.json({message:"Book has added succesfully",data:savedBook})
 

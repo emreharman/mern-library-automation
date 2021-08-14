@@ -8,20 +8,40 @@ const Books = ({ isAuth }) => {
     useEffect(() => {
         if (isAuth) {
             axios.get("http://localhost:3004/books")
-            .then(res => setBooks(res.data)).catch(err => history.push("/logout"))
+                .then(res => {
+                    console.log(res.data)
+                    setBooks(res.data)
+                }).catch(err => history.push("/logout"))
         } else {
             history.push("/login")
         }
-    })
+    },[])
 
     if(books === "") return null
 
     return (
-        <div>
-            <h1>books page</h1>
-            {
-                books.map(book => (<p>{book.name} { book.author}</p>))
-            }
+        <div className="container pt-5">
+            <div className="row">
+                {
+                    books.map(book => (
+                        <div className="col-md-3 col-sm-6">
+                            <div className="card">
+                                <div className="card-header">
+                                    Name : {book.name}
+                                </div>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item">Author : { book.author}</li>
+                                    <li className="list-group-item">Publisher : { book.publisher}</li>
+                                    <li className="list-group-item">Publish Date : {book.publishDate}</li>
+                                    <li className="list-group-item">ISBN : { book.isbn}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    ))
+                }
+                
+            </div>
+            
         </div>
     )
 }

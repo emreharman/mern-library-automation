@@ -40,14 +40,14 @@ function App() {
           <Register/>
         </Route>
         {
-          role === "student" || role ==="manager" ? (
+          role === "student" || role ==="manager" && (
             <Route path="/books">
               <Books isAuth={ isAuth}/>
             </Route>
-          ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
+          )
         }
         {
-          role === "manager" ? (
+          role === "manager" && (
             <>
               <Route path="/admin" exact>
                 <Admin/>
@@ -56,7 +56,7 @@ function App() {
                 <AddBook/>
               </Route>
             </>
-          ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
+          )
         }
       </Switch>
     </Router>
