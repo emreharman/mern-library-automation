@@ -1,0 +1,38 @@
+.add-book-form-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-book-form {
+  width: 40%;
+  height: 50vh;
+}
+.add-book-form div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 2rem;
+}
+.add-book-form input {
+  width: 70%;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+.add-book-form input:focus {
+  outline: none;
+  border: 1px solid rgb(0, 153, 255);
+}
+.add-book-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-book-button-container button {
+  margin: auto;
+}

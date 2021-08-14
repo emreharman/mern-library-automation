@@ -11,16 +11,15 @@ const bookSchema = mongoose.Schema({
     },
     publisher: {
         type: String,
-        required: true
+        required: false
     },
     puslishDate: {
         type: String,
-        required: true,
+        required: false,
     },
     isbn: {
         type: String,
-        required:true
+        required:false
     }
 });
-
 module.exports = mongoose.model("Book", bookSchema);

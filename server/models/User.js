@@ -23,5 +23,4 @@ const userSchema = mongoose.Schema({
         default: "student"
     }
 });
-
 module.exports = mongoose.model("User", userSchema);

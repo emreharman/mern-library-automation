@@ -11,6 +11,7 @@ import Register from "./components/Register/Register";
 import Books from "./components/Books/Books";
 import Admin from "./components/Admin/Admin";
 import NotLoggedin from "./components/NotLoggedin/NotLoggedin";
+import AddBook from "./components/Books/AddBook";
 //import css files
 import "./general.css";
 
@@ -46,10 +47,15 @@ function App() {
           ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
         }
         {
-          role ==="manager" ? (
-            <Route path="/admin">
-              <Admin/>
-            </Route>
+          role === "manager" ? (
+            <>
+              <Route path="/admin" exact>
+                <Admin/>
+              </Route>
+              <Route path="/admin/add-book" exact>
+                <AddBook/>
+              </Route>
+            </>
           ):(<NotLoggedin setIsAuth={setIsAuth} setRole={ setRole}/>)
         }
       </Switch>
