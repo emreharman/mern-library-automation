@@ -1,67 +1,57 @@
-import React from 'react'
-import { Link,useHistory } from "react-router-dom";
-import axios from 'axios';
-import "./Header.css";
+import React,{useEffect} from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import jwt_decode from "jwt-decode"
+import "./Header.css"
 
-const Header = ({isAuth,setIsAuth,role,setRole}) => {
-    const history = useHistory();
-    console.log(role);
+const Header = ({ isAuth, setIsAuth, setUserId, setRole, role }) => {
+    const history = useHistory()
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if (token === null) history.push("/login")
+        else {
+            const decodedJwt = jwt_decode(token)
+            console.log(decodedJwt)
+            setUserId(decodedJwt.user._id)
+            setRole(decodedJwt.user.role)
+            setIsAuth(true)    
+        }
+    })
+    const handleLogout = ()=>{
+        localStorage.removeItem("token")
+        setIsAuth(false)
+        setUserId("")
+        setRole("")
+        history.push("/login")
+    }
     return (
         <header>
             <div className="logo">
-                <Link to="/" className="link-nav">My Site</Link>
+                <Link to="/">Library</Link>
             </div>
             <nav>
-                <ul>
-                    {
-                        isAuth === false && (
-                            <>
-                                <li>
-                                    <Link to="/login" className="link-nav">Login</Link>
-                                </li>
-                                <li>
-                                    <Link to="/register" className="link-nav">Register</Link>
-                                </li>
-                            </>
-                        )
-                    }
-                    {
-                        role === "student" || role === "manager" ? (
-                            <>
-                                <li>
-                                    <Link to="/books" className="link-nav">Books</Link>
-                                </li>
-                            </>
-                        ):(null)
-                    }
-                    {
-                        role === "manager" && (
-                            <>
-                                <li>
-                                    <Link to="/admin" className="link-nav">Admin Panel</Link>
-                                </li>
-                            </>
-                        )
-                    }
-                    {
-                        isAuth === true && (
-                            <>
-                                <li>
-                                    <button className="logout" onClick={() => {
-                                        axios.get("http://localhost:3004/user/logout")
-                                            .then(res => {
-                                                setIsAuth(false);
-                                                setRole("");
-                                                history.push("/login");
-                                            })
-                                            .catch(err => console.log(err));
-                                    }}>Logout</button>
-                                </li>
-                            </>    
-                        )
-                    }
-                   
-                </ul>
+                {
+                    role === "manager" && (
+                        <>
+                            <Link to="/admin-panel">Admin Panel</Link>
+                            <Link to="/books">Books</Link>
+                        </>
+                        
+                    )
+                }
+                {
+                    role === "student"  && (<Link to="/books">Books</Link>)
+                }
+                {
+                    !isAuth ? (
+                        <>
+                            <Link to="/login">Login</Link>
+                            <Link to="/register">Register</Link>
+                        </>
+                    ) : (
+                            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                    )
+                }
+                
             </nav>
         </header>
     )

@@ -1,20 +1,20 @@
-const router = require("express").Router();
-const User = require("../models/User");
-const mailValidator = require("email-validator");
-const bcrypt = require("bcrypt");
+const router = require("express").Router()
+const User = require("../models/User")
+const bcrypt = require("bcrypt")
+const emailValidator = require("email-validator")
 const jwt = require("jsonwebtoken");
 
-//registering a user
+//Register route
 router.post("/register", async (req, res) => {
     try {
         //validation
-        if (!req.body.email || !req.body.password || !req.body.name || !req.body.surname) {
-            return res.status(400).json({ message: "Please fill all required fields." });
+        if (!req.body.name || !req.body.surname || !req.body.password || !req.body.email) {
+            return res.status(400).json({message:"Please fill all required fields."})
         }
         if (req.body.password.length < 6) {
             return res.status(400).json({ message: "Password must be at least 6 characters." });
         }
-        if (!mailValidator.validate(req.body.email)) {
+        if (!emailValidator.validate(req.body.email)) {
             return res.status(400).json({ message: "Email address must valid. Ex: abc@abc.com" });
         }
         //checking if user exist
@@ -33,11 +33,14 @@ router.post("/register", async (req, res) => {
             password: hashedPassword
         });
         const savedUser = await user.save();
-        res.json({ message: "Register is successful.", email: savedUser.email, name: savedUser.name, surname: savedUser.surname });
+        res.json({ message: "Register is successful.", savedUser });
+        
     } catch (error) {
-        res.status(500).json({ message: "Something is wrong with server." });
+        console.log(error)
+        res.status(500).json({message:"Something is wrong with server",error})
     }
-});
+})
+
 //login router
 router.post("/login", async (req, res) => {
     try {
@@ -48,7 +51,7 @@ router.post("/login", async (req, res) => {
         if (req.body.password.length < 6) {
             return res.status(400).json({ message: "Password must be at least 6 characters." });
         }
-        if (!mailValidator.validate(req.body.email)) {
+        if (!emailValidator.validate(req.body.email)) {
             return res.status(400).json({ message: "Email address must valid. Ex: abc@abc.com" });
         }
         //check if user exists
@@ -69,33 +72,11 @@ router.post("/login", async (req, res) => {
                 role: userExist.role
             }
         }, process.env.JWT_SECRET);
-        //now set cookie
-        res.cookie("token", token, {
-            httpOnly: true
-        }).json({ message: "Login is successful.", role: userExist.role });
+        res.json({ message: "Login is successful.", role: userExist.role,userId:userExist._id,token });
     } catch (error) {
-        res.status(500).json({ message: "Something is wrong with server." });
+        console.log(error)
+        res.status(500).json({ message: "Something is wrong with server.",error });
     }
 });
 
-//logout router
-router.get("/logout", (req, res) => {
-    res.cookie("token", "", {
-        httpOnly: true,
-        expires: new Date(0)
-    }).json({ message: "Succesfully logged out." });
-})
-
-//isAuth
-router.get("/is-auth", (req, res) => {
-    
-    try {
-        const token = req.cookies.token;
-        if (!token) return res.json(false);
-        jwt.verify(token, process.env.JWT_SECRET)
-        res.json(true);
-    } catch (error) {
-        res.json(false);
-    }
-})
 module.exports = router;

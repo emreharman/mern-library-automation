@@ -1,0 +1,48 @@
+.register-container {
+  width: 100%;
+  height: calc(100vh - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-container form {
+  width: 40%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid;
+  border-radius: 10px;
+}
+.register-form-control {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.register-form-control input {
+  width: 60%;
+  padding: 4px 10px;
+  font-size: 1.1rem;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+}
+.register-form-control input:focus {
+  outline: none;
+  border: 1px solid #0779e4;
+}
+.register-container button {
+  padding: 10px 5rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #0779e4;
+  color: white;
+  font-size: 1.1rem;
+  transition: all 0.3s ease-in;
+}
+.register-container button:hover {
+  padding: 10px 6rem;
+}

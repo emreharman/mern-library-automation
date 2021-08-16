@@ -1,87 +1,96 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-import "../Login/Login.css";
+import React, { useState } from 'react'
+import { useHistory } from 'react-router'
+import axios from 'axios'
+import "./Register.css"
 
 const Register = () => {
-    const history = useHistory();
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState(false);
-    const [message, setMessage] = useState("");
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (email === "" || password === "" || name === "" || surname === "") {
-            setError(true);
-            setMessage("Please enter all the fields.");
+    const history=useHistory()
+    const [name, setName] = useState("")
+    const [nameError,setNameError]=useState(false)
+    const [surname, setSurname] = useState("")
+    const [surnameError,setSurnameError]=useState(false)
+    const [email, setEmail] = useState("")
+    const [emailError,setEmailError]=useState(false)
+    const [password, setPassword] = useState("")
+    const [passwordError, setPasswordError] = useState(false)
+    const [errorMessage,setErrorMessage]=useState("")
+    
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (name === "") {
+            setNameError(true)
+            setErrorMessage("Name field is required")
             setTimeout(() => {
-                setError(false);
-            }, 1000);
-            return;
+                setNameError(false)
+            }, 1500);
+            return
+        }
+        if (surname === "") {
+            setSurnameError(true)
+            setErrorMessage("Surname field is required")
+            setTimeout(() => {
+                setSurnameError(false)
+            }, 1500);
+            return
+        }
+        if (email === "") {
+            setEmailError(true)
+            setErrorMessage("Email field is required")
+            setTimeout(() => {
+                setEmailError(false)
+            }, 1500);
+            return
+        }
+        if (password === "") {
+            setPasswordError(true)
+            setErrorMessage("Password can't be empty")
+            setTimeout(() => {
+                setPasswordError(false)
+            }, 1500);
+            return
         }
         if (password.length < 6) {
-            setError(true);
-            setMessage("Password must be at least 6 characters.");
+            setPasswordError(true)
+            setErrorMessage("Password must be at least 6 characters")
             setTimeout(() => {
-                setError(false);
-            }, 1000);
-            return;
+                setPasswordError(false)
+            }, 1500);
+            return
         }
-        const user = {
-            name,
-            surname,
-            email,
-            password
+        const newUser = {
+            name,surname,email,password
         }
-        
-        const response = await axios.post("http://localhost:3004/user/register", user);
-        if (response.status === 200) {
-            history.push("/login");
-        }
-        
+        axios.post(`http://localhost:3004/user/register`, newUser)
+            .then(res => {
+                //console.log(res)
+                history.push("/login")
+            })
+            .catch(err => console.log(err.response))
     }
     return (
-        <div className="form-container">
-            <form onSubmit={handleSubmit}>
-                <div className="form-element">
+        <div className="register-container" onSubmit={handleSubmit}>
+            <form>
+                <div className="register-form-control">
                     <label htmlFor="name">Name</label>
-                    <input type="text" id="name" 
-                        value={name}
-                        onChange={(e)=>setName(e.target.value)}
-                    />
+                    <input type="text" id="name" placeholder="James" value={name} onChange={ (e)=>setName(e.target.value)}/>
                 </div>
-                 <div className="form-element">
+                {nameError && (<small style={{color:"#ff6961"}}>{ errorMessage}</small>)}
+                <div className="register-form-control">
                     <label htmlFor="surname">Surname</label>
-                    <input type="text" id="surname" 
-                        value={surname}
-                        onChange={(e)=>setSurname(e.target.value)}
-                    />
+                    <input type="text" id="surname" placeholder="Vardy" value={surname} onChange={ (e)=>setSurname(e.target.value)}/>
                 </div>
-                <div className="form-element">
+                {surnameError && (<small style={{color:"#ff6961"}}>{ errorMessage}</small>)}
+                <div className="register-form-control">
                     <label htmlFor="email">Email</label>
-                    <input type="email" id="email" placeholder="example@example.com"
-                        value={email}
-                        onChange={(e)=>setEmail(e.target.value)}
-                    />
+                    <input type="email" id="email" placeholder="abc@abc.com" value={email} onChange={ (e)=>setEmail(e.target.value)}/>
                 </div>
-                <div className="form-element">
+                {emailError && (<small style={{color:"#ff6961"}}>{ errorMessage}</small>)}
+                <div className="register-form-control">
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password"
-                        value={password}
-                        onChange={(e)=>setPassword(e.target.value)}
-                    />
+                    <input type="password" id="password" placeholder="At least 6 characters" value={password} onChange={ (e)=>setPassword(e.target.value)}/>
                 </div>
-                {
-                    error && (
-                        <div className="error-line">
-                            <small>{ message}</small>
-                        </div>
-                    )
-                }
-                
-                <div className="form-button-container">
+                {passwordError && (<small style={{color:"#ff6961"}}>{ errorMessage}</small>)}
+                <div>
                     <button type="submit">Register</button>
                 </div>
             </form>

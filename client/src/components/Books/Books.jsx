@@ -1,47 +1,36 @@
 import React,{useEffect,useState} from 'react'
-import { useHistory } from 'react-router'
-import axios from 'axios';
+import axios from 'axios'
 
-const Books = ({ isAuth }) => {
-    const history = useHistory();
-    const [books,setBooks]=useState("")
+const Books = () => {
+    const [books, setBooks] = useState("")
+    
     useEffect(() => {
-        if (isAuth) {
-            axios.get("http://localhost:3004/books")
-                .then(res => {
-                    console.log(res.data)
-                    setBooks(res.data)
-                }).catch(err => history.push("/logout"))
-        } else {
-            history.push("/login")
-        }
-    },[])
-
-    if(books === "") return null
+        axios.get("http://localhost:3004/book")
+            .then(res => setBooks(res.data))
+            .catch(err => console.log(err.response))
+    }, [])
+    
+    if (books === "") return null
+    
 
     return (
-        <div className="container pt-5">
+        <div className="container mt-5">
             <div className="row">
                 {
                     books.map(book => (
-                        <div className="col-md-3 col-sm-6">
-                            <div className="card">
-                                <div className="card-header">
-                                    Name : {book.name}
+                        <div className="col-md-3 col-sm-6" key={book._id}>
+                            <div className="card" >
+                                <img src={book.img} className="card-img-top" alt={book.name} style={{height:"20rem"}}/>
+                                <div className="card-body d-flex flex-column justify-content-center text-center">
+                                    <h5 className="card-title">{ book.name}</h5>
+                                    <p className="card-text">{ book.author}</p>
+                                    <a href="#" class="btn btn-primary">Details</a>
                                 </div>
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item">Author : { book.author}</li>
-                                    <li className="list-group-item">Publisher : { book.publisher}</li>
-                                    <li className="list-group-item">Publish Date : {book.publishDate}</li>
-                                    <li className="list-group-item">ISBN : { book.isbn}</li>
-                                </ul>
                             </div>
                         </div>
                     ))
                 }
-                
             </div>
-            
         </div>
     )
 }

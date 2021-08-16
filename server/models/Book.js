@@ -20,6 +20,15 @@ const bookSchema = mongoose.Schema({
     isbn: {
         type: String,
         required:false
+    },
+    img: {
+        type: String,
+        required: false,
+        default: "https://via.placeholder.com/150"
+    },
+    userId: {
+        type: String,
+        required:true
     }
 });
 module.exports = mongoose.model("Book", bookSchema);

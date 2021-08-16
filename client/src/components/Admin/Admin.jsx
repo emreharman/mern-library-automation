@@ -1,12 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import AdminHeader from './AdminHeader'
 
 const Admin = () => {
     return (
         <div>
-            <div style={{display:"flex",justifyContent:"center",marginTop:"2rem"}}>
-                <Link to="/admin/add-book">Add Book</Link>
-            </div>
+            <AdminHeader/>
         </div>
     )
 }
