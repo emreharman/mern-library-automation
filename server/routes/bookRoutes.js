@@ -14,14 +14,55 @@ router.get("/", async (req, res) => {
         res.status(500).json({message:"Something is wrong with server"})
     }
 })
-
+//get specific book
+router.get("/:id", async (req, res) => {
+    try {
+        const id = req.params.id
+        //console.log(id)
+        //find book
+        const book = await Book.findById(id)
+        if (!book) return res.status(404).json({ message: "Couldn't find the book" })
+        res.json(book)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Something is wrong with server"})
+    }
+    
+})
+//update a book
+router.put("/:id", async (req, res) => {
+    try {
+        //verify token and check role
+        const token = req.body.token
+        const verified = await jwt.verify(token, process.env.JWT_SECRET)
+        if (verified.user.role != "manager") {
+           return res.status(401).json({message:"You're not authorized."})
+        }
+        const id = req.params.id
+        const newBook = {
+            _id: id,
+            name: req.body.name,
+            author: req.body.author,
+            publisher: req.body.publisher,
+            publishDate: req.body.publishDate,
+            isbn: req.body.isbn,
+            img: req.body.img,
+            userId: req.body.userId
+        }
+        const updatedBook = await Book.findByIdAndUpdate(id, newBook)
+        res.json({message:"Book updated successfully",updatedBook})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Something is wrong with server"})
+    }
+})
 //add book route
 router.post("/add", async (req, res) => {
     try {
         //verify token and check role
         const token = req.body.token
         const verified = await jwt.verify(token,process.env.JWT_SECRET)
-        if (verified.user._id != req.body.userId && verified.userId.role != "manager") {
+        if (verified.user._id != req.body.userId && verified.user.role != "manager") {
            return res.status(401).json({message:"You're not authorized."})
         }
         //validation
@@ -41,7 +82,7 @@ router.post("/add", async (req, res) => {
             img,
             userId:req.body.userId
         })
-        console.log(newBook)
+        //console.log(newBook)
         const savedBook = await newBook.save()
         res.json({message:"Add book is succesfull",savedBook})
 

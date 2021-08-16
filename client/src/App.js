@@ -7,6 +7,7 @@ import Login from "./components/Login/Login"
 import Books from "./components/Books/Books"
 import Admin from "./components/Admin/Admin"
 import AddBook from "./components/Books/AddBook"
+import EditBook from "./components/Books/EditBook";
 import "./general.css"
 
 function App() {
@@ -41,6 +42,11 @@ function App() {
         <Route path="/books/add" exact>
           {
             role === "manager" ? (<AddBook setIsAuth={setIsAuth} setUserId={setUserId} setRole={setRole}/>):(<Redirect to="/login"/>)
+          }
+        </Route>
+        <Route path="/books/edit/:id">
+          {
+            role === "manager" || role === "student" ? (<EditBook />):(<Redirect to="/login" />)
           }
         </Route>
       </Switch>

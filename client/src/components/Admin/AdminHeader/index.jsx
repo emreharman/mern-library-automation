@@ -6,7 +6,7 @@ const AdminHeader = () => {
     return (
         <div className="admin-header">
             <ul>
-                <li><Link to="/books/add">Add Book</Link></li>
+                <li><Link to="/books">Book Operations</Link></li>
             </ul>
         </div>
     )
