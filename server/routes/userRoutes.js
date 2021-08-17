@@ -78,5 +78,20 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ message: "Something is wrong with server.",error });
     }
 });
-
+//get all users
+router.get("/:token", async (req, res) => {
+    try {
+        //verify token
+        const token = req.params.token
+        if (!token) res.status(401).json({ message: "You're not authorized" })
+        const verified = await jwt.verify(token, process.env.JWT_SECRET)
+        if (verified.user.role !== "manager") res.status(401).json({ message: "You're not authorized" })
+        //find and send users
+        const users = await User.find({})
+        res.json(users)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Something is wrong with server.",error });
+    }
+})
 module.exports = router;
