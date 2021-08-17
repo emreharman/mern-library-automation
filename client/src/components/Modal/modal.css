@@ -1,0 +1,27 @@
+.show-modal-container {
+  width: 30%;
+  height: 40vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid gray;
+  border-radius: 10px;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+#modal-button-cancel {
+  padding: 3px 10px;
+}
+#modal-button-ok {
+  padding: 3px 2rem;
+  background-color: rgb(212, 73, 73);
+}

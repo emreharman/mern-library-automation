@@ -91,5 +91,21 @@ router.post("/add", async (req, res) => {
         res.status(500).json({message:"Something is wrong with server"})
     }
 })
+//delete book route
+router.delete("/:id/:token", async (req, res) => {
+    try {
+        //check for token
+        const token = req.params.token
+        if(!token) return res.status(401).json({message:"You're not authorized"})
+        const verified = await jwt.verify(token, process.env.JWT_SECRET)
+        if (verified.user.role !== "manager") return res.status(401).json({ message: "You're not authorized" })
+        const id = req.params.id
+        const deletedBook = await Book.findByIdAndDelete(id)
+        res.json({message:"Delete is successfull",deletedBook})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Something is wrong with server",error})
+    }
+})
 
 module.exports = router;
