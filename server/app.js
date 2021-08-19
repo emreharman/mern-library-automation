@@ -13,9 +13,7 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedT
 
 //middlewares
 app.use(express.json())
-app.use(cors(
-    {origin:[`http://localhost:3000`],credentials:true}
-));
+app.use(cors());
 
 //routes
 app.use("/user", require("./routes/userRoutes"))

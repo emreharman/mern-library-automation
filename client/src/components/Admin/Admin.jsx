@@ -1,12 +1,8 @@
-import React from 'react'
-import AdminHeader from './AdminHeader'
+import React from "react";
+import AdminHeader from "./AdminHeader";
 
 const Admin = () => {
-    return (
-        <div>
-            <AdminHeader/>
-        </div>
-    )
-}
+  return <div></div>;
+};
 
-export default Admin
+export default Admin;

@@ -94,4 +94,37 @@ router.get("/:token", async (req, res) => {
         res.status(500).json({ message: "Something is wrong with server.",error });
     }
 })
+// update an user
+router.put("/update/:id/:token", async (req, res) => {
+    try {
+        //console.log(req.body)
+        const token = req.params.token
+        if (!token) res.status(401).json({ message: "You're not authorized" })
+        const verified = await jwt.verify(token, process.env.JWT_SECRET)
+        if (verified.user.role !== "manager") res.status(401).json({ message: "You're not authorized" })
+        const id = req.params.id
+        //console.log(newUser)
+        const updatedUser = await User.findByIdAndUpdate(id, req.body)
+        res.json({message:"User updated successfully",updatedUser})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Something is wrong with server.",error });
+    }
+    
+})
+// delete an user
+router.delete("/delete/:id/:token", async (req, res) => {
+    try {
+        const token = req.params.token
+        if (!token) res.status(401).json({ message: "You're not authorized" })
+        const verified = await jwt.verify(token, process.env.JWT_SECRET)
+        if (verified.user.role !== "manager") res.status(401).json({ message: "You're not authorized" })
+        const id = req.params.id
+        const deletedUser = await User.findByIdAndDelete(id)
+        res.json({message:"Delete is successfull",deletedUser})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Something is wrong with server.",error });
+    }
+})
 module.exports = router;
